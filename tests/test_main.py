@@ -48,5 +48,3 @@ def test_main(mocker) -> None:
     mock_add.assert_called_with('肉', False,
                                 NewListItemPlacementValue.Bottom)
     mock_sync.assert_called()
-
-    request.get_json.return_value = {"test": "itemがない"}
