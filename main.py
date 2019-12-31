@@ -7,7 +7,7 @@ from typing import Generator
 def main(request):
     request_json = request.get_json()
     if 'item' not in request_json:
-        raise TypeError('request body doesnt include the key "item"')
+        raise ValueError('request body doesnt include the key "item"')
     item = request_json['item']
     keep = Keep()
     _login(keep, 'the.saki72@gmail.com')
