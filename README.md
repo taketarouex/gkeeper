@@ -2,6 +2,14 @@
 
 add item to Google Keep list
 
+## install
+
+`make install`
+
+## deploy
+
+`make deploy`
+
 ## test
 
 `make test`
