@@ -1,7 +1,9 @@
-from gkeepapi import Keep
-from gkeepapi.node import NewListItemPlacementValue, List as Glist
 import os
 from typing import Generator
+
+from gkeepapi import Keep
+from gkeepapi.node import List as Glist
+from gkeepapi.node import NewListItemPlacementValue
 
 
 def main(request):
