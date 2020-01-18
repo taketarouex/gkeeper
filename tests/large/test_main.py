@@ -1,9 +1,11 @@
-from main import main
 import pytest
+from pytest_mock.plugin import MockFixture
+
+from main import main
 
 
 @pytest.mark.large
-def test_main(mocker):
+def test_main(mocker: MockFixture) -> None:
     """depending on Google Keep"""
     # need to set the environ "KEEP_PASSWORD"
     request = mocker.Mock()

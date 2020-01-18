@@ -3,11 +3,12 @@ import os
 import pytest
 from gkeepapi import Keep
 from gkeepapi.node import NewListItemPlacementValue
+from pytest_mock.plugin import MockFixture
 
 from main import _fetch_list, _login, main
 
 
-def test_login(mocker) -> None:
+def test_login(mocker: MockFixture) -> None:
     mock_keep = mocker.Mock()
     mock_keep.login = mocker.Mock()
     mock_keep.login.return_value = True
@@ -20,7 +21,7 @@ def test_login(mocker) -> None:
         _login(mock_keep, 'test')
 
 
-def test_fetch_list(mocker) -> None:
+def test_fetch_list(mocker: MockFixture) -> None:
     mock_keep = mocker.Mock()
     mock_keep.find = mocker.Mock()
     mock_glist = mocker.Mock()
@@ -29,7 +30,7 @@ def test_fetch_list(mocker) -> None:
     mock_keep.find.assert_called_with(query='買い物')
 
 
-def test_main(mocker) -> None:
+def test_main(mocker: MockFixture) -> None:
     request = mocker.Mock()
     request.get_json.return_value = {"item": "肉"}
 
