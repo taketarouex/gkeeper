@@ -1,5 +1,5 @@
 import os
-from typing import Generator
+from typing import Any, Generator
 
 from gkeepapi import Keep
 from gkeepapi.node import List as Glist
@@ -8,7 +8,7 @@ from gkeepapi.node import NewListItemPlacementValue
 from lib.configs import ConfigParser
 
 
-def main(request):
+def main(request: Any) -> None:
     request_json = request.get_json()
     if 'item' not in request_json:
         raise ValueError('request body doesnt include the key "item"')
@@ -26,7 +26,7 @@ def main(request):
     keep.sync()
 
 
-def _login(keep: Keep, user: str):
+def _login(keep: Keep, user: str) -> None:
     password = os.environ.get('KEEP_PASSWORD', 'password')
     result = keep.login(user, password)
     if not result:
