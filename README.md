@@ -23,6 +23,10 @@ deploy to cloud functions.
 
 ## Requirements
 
+- poetry
+- make
+- gcloud
+
 ## TODO
 
 - []cloud functionsのhttpトリガーを保護する
