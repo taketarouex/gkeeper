@@ -40,5 +40,6 @@ deploy to cloud functions.
 - [x] 以下を設定ファイルに分離する
   - ユーザ名
   - リスト名
+- [ ] 複数リストに対応する
 - [ ] パスワードを環境変数以外に変える
 - [ ] deployをterraform経由にする
