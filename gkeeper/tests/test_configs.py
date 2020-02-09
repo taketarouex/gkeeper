@@ -1,7 +1,7 @@
 import pytest
 import pytest_mock
 
-from lib.configs import ConfigParser
+from gkeeper.configs import ConfigParser
 
 
 @pytest.fixture
