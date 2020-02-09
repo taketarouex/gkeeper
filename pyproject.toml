@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "keep-shopping-list"
+name = "gkeeper"
 version = "0.1.0"
 description = "google keep にアイテムを追加する"
 authors = ["Ohnuki Takeshi <32025300+tktkc72@users.noreply.github.com>"]
@@ -8,6 +8,7 @@ authors = ["Ohnuki Takeshi <32025300+tktkc72@users.noreply.github.com>"]
 python = "^3.7"
 gkeepapi = "^0.11.9"
 toml = "^0.10.0"
+flask = "^1.1.1"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.761"
