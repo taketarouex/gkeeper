@@ -23,7 +23,3 @@ class TestConfigParser(object):
     def test_google_config(self, configparser: pytest.fixture) -> None:
         google_config = configparser.google_config
         assert google_config.id == 'test'
-
-    def test_keep_config(self, configparser: pytest.fixture) -> None:
-        keep_config = configparser.keep_config
-        assert keep_config.list_name == 'test_list'
