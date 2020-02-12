@@ -7,7 +7,7 @@ from gkeepapi.node import List as Glist
 from gkeepapi.node import NewListItemPlacementValue
 
 from gkeeper.keeper import Keeper
-from gkeeper.configs import ConfigParser, GoogleConfig, KeepConfig
+from gkeeper.configs import ConfigParser, GoogleConfig
 
 
 class TestKeeper(object):
@@ -20,17 +20,11 @@ class TestKeeper(object):
     def config(self, mocker: MockFixture) -> Keeper:
         mock_config: MagicMock = mocker.MagicMock(spec=ConfigParser)
         mock_google_config: MagicMock = mocker.MagicMock(spec=GoogleConfig)
-        mock_keep_config: MagicMock = mocker.MagicMock(spec=KeepConfig)
         type(mock_google_config).id = PropertyMock(
             return_value=self.test_id)
-        type(mock_keep_config).list_name = PropertyMock(
-            return_value=self.test_list_name)
 
         type(mock_config).google_config = PropertyMock(
             return_value=mock_google_config)
-        type(mock_config).keep_config = PropertyMock(
-            return_value=mock_keep_config
-        )
         return mock_config
 
     def test_add(self, mocker: MockFixture,
@@ -51,7 +45,7 @@ class TestKeeper(object):
         mock_environ.return_value = self.test_password
 
         test_item = 'test'
-        keeper.add(item=test_item)
+        keeper.add(list_name=self.test_list_name, item=test_item)
 
         mock_login.assert_called_with(self.test_id, self.test_password)
         mock_keep.find.assert_called_with(query=self.test_list_name)
