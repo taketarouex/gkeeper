@@ -19,9 +19,11 @@ def main(request: Request) -> None:
     list_name = request_json['list_name']
 
     try:
+        logger.info("start gkeeper")
         config_parser = ConfigParser()
         keeper = Keeper(config_parser=config_parser)
         keeper.add(list_name=list_name, item=item)
+        logger.info("end gkeeper")
     except Exception as e:
         logger.error(e.args[0])
         raise e
