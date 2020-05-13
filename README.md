@@ -25,8 +25,7 @@ you can add items to Keep by your voice.
 ## Deploy
 
 deploy to cloud functions.
-
-`make deploy`
+[git hub actions](https://github.com/taketarouex/gkeeper/actions?query=workflow%3ADelivery)
 
 ## Test
 
@@ -47,4 +46,3 @@ deploy to cloud functions.
 - [x] 複数リストに対応する
 - [ ] リストの取得をidで行うようにする
 - [ ] パスワードを環境変数以外に変える
-- [ ] deployをterraform経由にする
