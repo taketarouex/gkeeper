@@ -1,6 +1,7 @@
 NAME := gkeeper
 REGION := asia-northeast1
 MAIN := main.py
+PROJECT := 
 
 .PHONY: lint
 lint:
@@ -15,12 +16,6 @@ test: lint
 install:
 	poetry install
 
-.PHONY: deploy
-deploy: test
+.PHONY: transcribe_poetry
+transcribe_poetry:
 	poetry export -f requirements.txt > requirements.txt
-	gcloud functions deploy ${NAME} \
-			--region ${REGION} \
-			--entry-point main \
-			--set-env-vars KEEP_PASSWORD=${KEEP_PASSWORD} \
-			--runtime python37 \
-			--trigger-http
