@@ -15,7 +15,6 @@ def test_main(mocker: MockFixture) -> None:
         'item': test_item
     }
 
-    mocker.patch('main.ConfigParser')
     mock_keeper: MagicMock = mocker.patch('main.Keeper')
 
     main(request=request)
