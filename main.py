@@ -2,7 +2,6 @@ from logging import getLogger
 
 from flask import Request
 
-from gkeeper.configs import ConfigParser
 from gkeeper.keeper import Keeper
 
 logger = getLogger(__name__)
@@ -20,8 +19,7 @@ def main(request: Request) -> None:
 
     try:
         logger.info("start gkeeper")
-        config_parser = ConfigParser()
-        keeper = Keeper(config_parser=config_parser)
+        keeper = Keeper()
         keeper.add(list_name=list_name, item=item)
         logger.info("end gkeeper")
     except Exception as e:
