@@ -32,7 +32,6 @@ jobs:
               --project ${GCP_PROJECT} \
               --region ${GCP_REGION} \
               --entry-point main \
-              --set-env-vars KEEP_USER=${KEEP_USER},\
-              KEEP_PASSWORD=${KEEP_PASSWORD} \
+              --set-env-vars KEEP_USER=${KEEP_USER},KEEP_PASSWORD=${KEEP_PASSWORD} \
               --runtime python37 \
               --trigger-http
