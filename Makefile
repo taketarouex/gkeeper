@@ -5,12 +5,12 @@ PROJECT :=
 
 .PHONY: lint
 lint:
-	poetry run mypy ${NAME} ${MAIN}
-	poetry run flake8 ${NAME} ${MAIN}
+	poetry run mypy ${NAME} ${MAIN} tests
+	poetry run flake8 ${NAME} ${MAIN} tests
 
 .PHONY: test
 test: lint
-	poetry run pytest ${NAME}/tests -m "not large"
+	poetry run pytest tests -m "not large"
 
 .PHONY: install
 install:
