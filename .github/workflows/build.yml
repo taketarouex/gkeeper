@@ -30,8 +30,9 @@ jobs:
         version: '290.0.1'
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         project_id: ${{ secrets.GCP_PROJECT }}
-    - name: build
-      run: |-
-        gcloud builds submit \
-          --quiet \
-          --tag asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gkeeper:${GITHUB_SHA::7}
+    - name: Configure docker to use the gcloud cli
+      run: gcloud auth configure-docker --quiet
+    - name: Build a docker image
+      run: docker build -t asia.gcr.io/${{ secrets.GCP_PROJECT }}/gkeeper:${GITHUB_SHA::7} .
+    - name: Push the docker image
+      run: docker push asia.gcr.io/${{ secrets.GCP_PROJECT }}/gkeeper:${GITHUB_SHA::7}
