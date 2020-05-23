@@ -2,6 +2,10 @@ name: build
 
 on: [push]
 
+env:
+  GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+  GCP_REGION: ${{ secrets.GCP_REGION }}
+
 jobs:
   build:
 
@@ -20,3 +24,14 @@ jobs:
     - name: Test with pytest
       run: |
         make test
+    - name: GCP Authenticate
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '290.0.1'
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT }}
+    - name: build
+        run: |-
+          gcloud builds submit \
+            --quiet \
+            --tag asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gkeeper:${GITHUB_SHA::7}

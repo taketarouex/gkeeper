@@ -20,7 +20,8 @@ def main(request: Request) -> None:
     try:
         logger.info("start gkeeper")
         keeper = Keeper()
-        keeper.add(list_name=list_name, item=item)
+        keeper.login()
+        keeper.add_item(list_name=list_name, item=item)
         logger.info("end gkeeper")
     except Exception as e:
         logger.error(e.args[0])
