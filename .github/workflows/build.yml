@@ -31,7 +31,7 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         project_id: ${{ secrets.GCP_PROJECT }}
     - name: build
-        run: |-
-          gcloud builds submit \
-            --quiet \
-            --tag asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gkeeper:${GITHUB_SHA::7}
+      run: |-
+        gcloud builds submit \
+          --quiet \
+          --tag asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gkeeper:${GITHUB_SHA::7}
