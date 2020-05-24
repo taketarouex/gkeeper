@@ -51,5 +51,5 @@ jobs:
             --image "asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7}" \
             --set-env-vars=KEEP_USER=${KEEP_USER},KEEP_USER=${KEEP_USER} \
             --platform "managed" \
-            --service_account "${GCP_SA_EMAIL}" \
+            --service-account "${GCP_SA_EMAIL}" \
             --allow-unauthenticated
