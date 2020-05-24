@@ -28,7 +28,6 @@ jobs:
           ${{ runner.os }}-
     - name: Install dependencies
       run: |
-        poetry config virtualenvs.in-project true
         pip install poetry
         make install
     - name: Test with pytest
