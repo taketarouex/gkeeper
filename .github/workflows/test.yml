@@ -20,7 +20,7 @@ jobs:
       env:
         cache-name: cache-python
       with:
-        path: ${{ env.pythonLocation }}
+        path: ~/.cache/pip
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
