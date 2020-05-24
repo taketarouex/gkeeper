@@ -31,8 +31,7 @@ jobs:
       - name: Push the docker image
         run: |
           docker push asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7}
-          docker push asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${version}
-  
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -49,5 +48,6 @@ jobs:
             --quiet \
             --regin "${GCP_REGION}" \
             --image "asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7}" \
-            --platform "managed"
+            --set-env-vars=KEEP_USER=${KEEP_USER},KEEP_USER=${KEEP_USER} \
+            --platform "managed" \
             --allow-unauthenticated
