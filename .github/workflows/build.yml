@@ -28,14 +28,15 @@ jobs:
           ${{ runner.os }}-
     - name: Install dependencies
       run: |
-        pip install poetry
         poetry config virtualenvs.in-project true
+        pip install poetry
         make install
     - name: Test with pytest
       run: |
         make test
 
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
