@@ -7,23 +7,40 @@ env:
   GCP_REGION: ${{ secrets.GCP_REGION }}
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+    uses: actions/setup-python@v1
+    with:
+      python-version: 3.7
+    - name: cache python modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-virtualenvs
       with:
-        python-version: 3.7
+        path: ~/.venv
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
     - name: Install dependencies
       run: |
         pip install poetry
+        poetry config settings.virtualenvs.in-project true
         make install
     - name: Test with pytest
       run: |
         make test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build a docker image
+      run: docker build -t asia.gcr.io/${{ secrets.GCP_PROJECT }}/gkeeper:${GITHUB_SHA::7} .
     - name: GCP Authenticate
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
@@ -32,7 +49,5 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT }}
     - name: Configure docker to use the gcloud cli
       run: gcloud auth configure-docker --quiet
-    - name: Build a docker image
-      run: docker build -t asia.gcr.io/${{ secrets.GCP_PROJECT }}/gkeeper:${GITHUB_SHA::7} .
     - name: Push the docker image
       run: docker push asia.gcr.io/${{ secrets.GCP_PROJECT }}/gkeeper:${GITHUB_SHA::7}
