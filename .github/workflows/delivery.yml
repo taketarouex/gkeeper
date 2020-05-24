@@ -5,7 +5,6 @@ on: [push]
 env:
   GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
   GCP_REGION: ${{ secrets.GCP_REGION }}
-  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   KEEP_USER: ${{ secrets.KEEP_USER }}
   KEEP_PASSWORD: ${{ secrets.KEEP_PASSWORD }}
   SERVICE_NAME: gkeeper
@@ -20,18 +19,20 @@ jobs:
       - name: Build a docker image
         run: |
           docker build -t asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7} .
+          docker tag asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7} asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
-          service_account_key: ${GCP_SA_KEY}
-          project_id: ${GCP_PROJECT}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT }}
       - name: Configure docker to use the gcloud cli
         run: gcloud auth configure-docker --quiet
       - name: Push the docker image
         run: |
           docker push asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7}
-
+          docker push asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${version}
+  
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -40,8 +41,8 @@ jobs:
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
-          service_account_key: ${GCP_SA_KEY}
-          project_id: ${GCP_PROJECT}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT }}
       - name: deploy
         run: |-
           gcloud run deploy "${SERVICE_NAME}" \
