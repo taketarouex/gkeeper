@@ -1,37 +1,56 @@
-name: Delivery
+name: delivery
 
-on: 
-  push:
-    branches:
-      - master
+on: [push]
 
 env:
   GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
   GCP_REGION: ${{ secrets.GCP_REGION }}
+  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   KEEP_USER: ${{ secrets.KEEP_USER }}
   KEEP_PASSWORD: ${{ secrets.KEEP_PASSWORD }}
+  SERVICE_NAME: gkeeper
 
 jobs:
-  delivery:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v1
+      - name: Build a docker image
+        run: |
+          docker build -t asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7} .
+          version=$(poetry version | awk '{print "v"$NF}')
+          docker tag asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7} asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${version}
 
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          version: '273.0.0'
-          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-
-      - name: Deploy to Cloud Functions
+          version: '290.0.1'
+          service_account_key: ${GCP_SA_KEY}
+          project_id: ${GCP_PROJECT}
+      - name: Configure docker to use the gcloud cli
+        run: gcloud auth configure-docker --quiet
+      - name: Push the docker image
         run: |
-            gcloud functions deploy gkeeper \
-              --project ${GCP_PROJECT} \
-              --region ${GCP_REGION} \
-              --entry-point main \
-              --set-env-vars KEEP_USER=${KEEP_USER},KEEP_PASSWORD=${KEEP_PASSWORD} \
-              --runtime python37 \
-              --trigger-http
+          docker push asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7}
+          docker push asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${version}
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: GCP Authenticate
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${GCP_SA_KEY}
+          project_id: ${GCP_PROJECT}
+      - name: deploy
+        run: |-
+          gcloud run deploy "${SERVICE_NAME}" \
+            --quiet \
+            --regin "${GCP_REGION}" \
+            --image "asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7}" \
+            --platform "managed"
+            --allow-unauthenticated

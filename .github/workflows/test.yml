@@ -1,0 +1,32 @@
+name: build
+
+on: [push]
+
+env:
+  KEEP_USER: ${{ secrets.KEEP_USER }}
+  KEEP_PASSWORD: ${{ secrets.KEEP_PASSWORD }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        pip install poetry
+        make install
+    - name: Test with pytest
+      run: |
+        make test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build a docker image
+      run: docker-compose build
