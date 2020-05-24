@@ -9,14 +9,6 @@ add item to Google Keep list
 add item to Google Keep list by cloud functions.
 You can get the http endpoint which can do it.
 
-```plantuml
-@startuml
-[*] -> http_endpoint : http_request
-http_endpoint -> gkeeper
-gkeeper --> Keep
-@enduml
-```
-
 If you use IFTTT to post the http_endpoint,
 you can add items to Keep by your voice.
 
@@ -26,7 +18,7 @@ you can add items to Keep by your voice.
 
 ## Deploy
 
-deploy to cloud functions.
+deploy to cloud run.
 [git hub actions](https://github.com/taketarouex/gkeeper/actions?query=workflow%3ADelivery)
 
 ## Test
@@ -37,10 +29,10 @@ deploy to cloud functions.
 
 - poetry
 - make
-- gcloud
 
 ## TODO
 
 - [x] 複数リストに対応する
-- [ ] リストの取得をidで行うようにする
-- [ ] パスワードを環境変数以外に変える
+- [ ] アクセスポイントを保護する
+- [ ] ユーザ/パスワードは環境変数じゃなくする
+- [x] tokenを使用してlogin回数をへらす

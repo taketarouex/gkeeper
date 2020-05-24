@@ -1,0 +1,44 @@
+name: test
+
+on: [push]
+
+env:
+  KEEP_USER: ${{ secrets.KEEP_USER }}
+  KEEP_PASSWORD: ${{ secrets.KEEP_PASSWORD }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: cache python
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-python
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+    - name: Install dependencies
+      run: |
+        pip install poetry
+        poetry config virtualenvs.create false
+        make install
+    - name: Test with pytest
+      run: |
+        make test
+
+  test-build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build a docker image
+      run: docker-compose build
