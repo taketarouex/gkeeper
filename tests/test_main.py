@@ -19,7 +19,7 @@ def test_main(mocker: MockFixture) -> None:
 
     main(request=request)
 
-    mock_keeper().add.assert_called_with(
+    mock_keeper().add_item.assert_called_with(
         list_name=test_list_name,
         item=test_item
     )
