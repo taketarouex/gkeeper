@@ -49,7 +49,7 @@ jobs:
             --quiet \
             --region "${GCP_REGION}" \
             --image "asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7}" \
-            --set-env-vars=KEEP_USER=${KEEP_USER},KEEP_USER=${KEEP_USER} \
+            --set-env-vars=KEEP_USER=${KEEP_USER},KEEP_PASSWORD=${KEEP_PASSWORD} \
             --platform "managed" \
             --service-account "${GCP_SA_EMAIL}" \
             --allow-unauthenticated
