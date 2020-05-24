@@ -20,9 +20,9 @@ jobs:
       - name: Build a docker image
         run: |
           docker build -t asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7} .
+          pip install poetry
           version=$(poetry version | awk '{print "v"$NF}')
           docker tag asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7} asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${version}
-
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:

@@ -1,4 +1,4 @@
-name: build
+name: test
 
 on: [push]
 
@@ -23,7 +23,7 @@ jobs:
       run: |
         make test
 
-  build:
+  test-build:
     needs: test
     runs-on: ubuntu-latest
     steps:
