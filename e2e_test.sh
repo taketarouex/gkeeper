@@ -3,6 +3,7 @@
 set -eu
 
 export PORT=${PORT:-8080}
+docker-compose build
 docker-compose up &
 
 sleep 10
