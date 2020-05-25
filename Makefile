@@ -19,3 +19,5 @@ build:
 run:
 	docker-compose run --service-ports app
 
+stop:
+	docker-compose stop

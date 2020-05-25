@@ -1,12 +1,13 @@
 # keep-shopping-list
 
-![build](https://github.com/tktkc72/gkeeper/workflows/build/badge.svg?branch=master)
+![test](https://github.com/tktkc72/gkeeper/workflows/test/badge.svg?branch=master)
+![delivery](https://github.com/tktkc72/gkeeper/workflows/delivery/badge.svg?branch=master)
 
 add item to Google Keep list
 
 ## Description
 
-add item to Google Keep list by cloud functions.
+add item to Google Keep list by GCP cloud run.
 You can get the http endpoint which can do it.
 
 If you use IFTTT to post the http_endpoint,
@@ -18,12 +19,18 @@ you can add items to Keep by your voice.
 
 ## Deploy
 
-deploy to cloud run.
-[git hub actions](https://github.com/taketarouex/gkeeper/actions?query=workflow%3ADelivery)
+If master branch merged, deploy to cloud run.
+[git hub actions](https://github.com/tktkc72/gkeeper/actions?query=workflow%3Adelivery)
 
 ## Test
 
 `make test`
+
+### e2e-test
+
+`./e2e_test.sh`
+
+need to crate a keep list named `test_gkeeper`
 
 ## Requirements
 
@@ -34,5 +41,4 @@ deploy to cloud run.
 
 - [x] 複数リストに対応する
 - [ ] アクセスポイントを保護する
-- [ ] ユーザ/パスワードは環境変数じゃなくする
 - [x] tokenを使用してlogin回数をへらす
