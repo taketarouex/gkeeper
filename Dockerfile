@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock /app/
 
-RUN pip install poetry gunicorn keyrings.cryptfile
+RUN pip install poetry gunicorn
 
 RUN poetry config virtualenvs.create false && \
     poetry install
