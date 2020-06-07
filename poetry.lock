@@ -126,7 +126,7 @@ description = "An unofficial Google Keep API client"
 name = "gkeepapi"
 optional = false
 python-versions = "*"
-version = "0.11.15"
+version = "0.11.16"
 
 [package.dependencies]
 future = ">=0.16.0"
@@ -512,7 +512,7 @@ future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
 ]
 gkeepapi = [
-    {file = "gkeepapi-0.11.15-py2.py3-none-any.whl", hash = "sha256:08e3f670645710138d78a4a559670f7eb485e874873fc6d2d075642d3e72b127"},
+    {file = "gkeepapi-0.11.16-py2.py3-none-any.whl", hash = "sha256:37fd4d68bbd04db60998b6cae1078010144904f4db0156d94b557d3a338b66ef"},
 ]
 gpsoauth = [
     {file = "gpsoauth-0.4.1.tar.gz", hash = "sha256:1c3f45824d45ac3d06b9d9a0c0eccafe1052505d31ac9a698aef8b00fb0dfc37"},
