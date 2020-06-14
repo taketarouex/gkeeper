@@ -42,3 +42,6 @@ need to crate a keep list named `test_gkeeper`
 - [x] 複数リストに対応する
 - [ ] アクセスポイントを保護する
 - [x] tokenを使用してlogin回数をへらす
+- [ ] レスポンスを見直す
+  - [ ] login failは500エラーにする
+  - [ ] requestが解釈できない場合は400
