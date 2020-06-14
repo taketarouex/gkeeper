@@ -15,7 +15,7 @@ paths:
   '/api/list/{list_name}/item':
     post:
       summary: add item to list
-      operationId: add_item
+      operationId: post-add-item
       parameters:
         - name: list_name
           in: path
@@ -41,3 +41,15 @@ paths:
             type: object
             properties: {}
       description: add item to list
+  /api/health:
+    get:
+      summary: health
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+          examples: {}
+      operationId: get-api-health
+      description: confirm api health
