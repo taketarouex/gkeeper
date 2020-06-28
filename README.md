@@ -43,6 +43,7 @@ need to crate a keep list named `test_gkeeper`
 - [x] アクセスポイントを保護する
 - [x] tokenを使用してlogin回数をへらす
 - [ ] endpointsのデプロイ自動化
+  - [ ] endpoint URLをsecret化
 - [ ] endpointsのログがないので調査
 - [ ] レスポンスを見直す
   - [ ] login failは500エラーにする
