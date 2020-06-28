@@ -11,11 +11,13 @@ produces:
 x-google-backend:
   address: 'https://gkeeper-wkclup33iq-an.a.run.app'
   protocol: h2
+security:
+  - api_key: []
 paths:
   '/api/list/{list_name}/item':
     post:
       summary: add item to list
-      operationId: add_item
+      operationId: post-add-item
       parameters:
         - name: list_name
           in: path
@@ -41,3 +43,20 @@ paths:
             type: object
             properties: {}
       description: add item to list
+  /api/health:
+    get:
+      summary: health
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+          examples: {}
+      operationId: get-api-health
+      description: confirm api health
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"
