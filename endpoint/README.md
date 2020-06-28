@@ -3,7 +3,7 @@
 To protect gkeeper endpoint,
 add [Cloud Endpoints](https://cloud.google.com/endpoints/docs/openapi/get-started-cloud-run?hl=ja)
 
-You need api key to access gkeeper endpoint
+You need api key to access gkeeper endpoint.
 
 ## deploy
 
