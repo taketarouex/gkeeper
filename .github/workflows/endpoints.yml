@@ -1,0 +1,83 @@
+name: endpoints
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'endpoints/**'
+
+env:
+  GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+  GCP_REGION: ${{ secrets.GCP_REGION }}
+  GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
+  GATEWAY_NAME: ${{ secrets.GATEWAY_NAME }}
+  GCP_CI_SA_KEY: ${{ secrets.GCP_CI_SA_KEY }}
+  ENDPOINTS_HOST: ${{ secrets.ENDPOINTS_HOST }}
+  BACKEND_ADDRESS: ${{ secrets.BACKEND_ADDRESS }}
+
+jobs:
+  update-endpoints:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v1
+      - name: generate openapi docs
+        uses: cuchi/jinja2-action@1149b92d9ea6db61d7f71c22e3d5028d8065f140
+        with:
+          template: endpoints/openapi.yaml.j2
+          output_file: endpoints/openapi.yaml
+        env:
+          ENDPOINTS_HOST: ${ENDPOINTS_HOST}
+          BACKEND_ADDRESS: ${BACKEND_ADDRESS}
+      - name: GCP Authenticate
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${GCP_CI_SA_KEY}
+          project_id: ${GCP_PROJECT}
+      - name: update endpoints
+        run: |-
+          gcloud endpoints deploy endpoints/openapi.yaml --project ${GCP_PROJECT}
+
+  update-gateway:
+    runs-on: ubuntu-latest
+    needs: update-endpoints
+    steps:
+      - name: GCP Authenticate
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${GCP_CI_SA_KEY}
+          project_id: ${GCP_PROJECT}
+      - name: get latest config id
+        id: config-id
+        run: |-
+          config-id=$(gcloud endpoints configs list \
+            --service=gkeeper-gateway-wkclup33iq-an.a.run.app \
+            --sort-by="~CONFIG_ID" \
+            --limit=1 \
+            | tail -1 | cut -d' ' -f1)
+          echo "::set-output name=config-id::${config-id}"
+      - name: get service.json
+        run: |-
+          curl --fail -o "service.json" -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+          "https://servicemanagement.googleapis.com/v1/services/${ENDPOINTS_HOST}/configs/${steps.config-id.outputs.config-id}?view=FULL"
+      - name: Build a docker image
+        run: |
+          docker build -t asia.gcr.io/${GCP_PROJECT}/${GATEWAY_NAME}:${GITHUB_SHA::7} -f endpoints/Dockerfile .
+      - name: Configure docker to use the gcloud cli
+        run: gcloud auth configure-docker --quiet
+      - name: Push the docker image
+        run: |
+          docker push asia.gcr.io/${GCP_PROJECT}/${GATEWAY_NAME}:${GITHUB_SHA::7}
+      - name: deploy
+        run: |-
+          gcloud run deploy "${GATEWAY_NAME}" \
+            --quiet \
+            --allow-unauthenticated \
+            --region "${GCP_REGION}" \
+            --image "asia.gcr.io/${GCP_PROJECT}/${GATEWAY_NAME}:${GITHUB_SHA::7}" \
+            --project "${GCP_PROJECT}" \
+            --platform "managed" \
+            --service-account "${GCP_SA_EMAIL}"
