@@ -42,7 +42,7 @@ you must set below github secrets.
   - need below
     - roles/servicemanagement.configEditor
     - roles/run.admin
-    - roles/storage.objectAdmin
+    - roles/storage.admin
 - SERVICE_NAME
   - used to name of gkeeper cloud run
 - GATEWAY_NAME
