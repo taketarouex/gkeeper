@@ -48,12 +48,12 @@ jobs:
       - name: get latest config id
         id: config-id
         run: |-
-          config-id=$(gcloud endpoints configs list \
+          echo "::set-output name=config-id::\
+            $(gcloud endpoints configs list \
             --service=gkeeper-gateway-wkclup33iq-an.a.run.app \
             --sort-by="~CONFIG_ID" \
             --limit=1 \
-            | tail -1 | cut -d' ' -f1)
-          echo "::set-output name=config-id::${config-id}"
+            | tail -1 | cut -d' ' -f1)"
       - name: get service.json
         run: |-
           curl --fail -o "service.json" -H "Authorization: Bearer $(gcloud auth print-access-token)" \
