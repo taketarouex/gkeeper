@@ -54,11 +54,11 @@ jobs:
             | tail -1 | cut -d' ' -f1)"
       - name: get service.json
         run: |-
-          curl --fail -o "service.json" -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+          curl --fail -o "endpoints/service.json" -H "Authorization: Bearer $(gcloud auth print-access-token)" \
           "https://servicemanagement.googleapis.com/v1/services/${ENDPOINTS_HOST}/configs/${CONFIG_ID}?view=FULL"
       - name: Build a docker image
         run:
-          docker build -t asia.gcr.io/${GCP_PROJECT}/${GATEWAY_NAME}:${GITHUB_SHA::7} -f endpoints/Dockerfile .
+          docker build -t asia.gcr.io/${GCP_PROJECT}/${GATEWAY_NAME}:${GITHUB_SHA::7} -f endpoints/Dockerfile endpoints
       - name: Configure docker to use the gcloud cli
         run: gcloud auth configure-docker --quiet
       - name: Push the docker image
