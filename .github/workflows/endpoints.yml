@@ -25,15 +25,12 @@ jobs:
         with:
           template: endpoints/openapi.yaml.j2
           output_file: endpoints/openapi.yaml
-        env:
-          ENDPOINTS_HOST: ${ENDPOINTS_HOST}
-          BACKEND_ADDRESS: ${BACKEND_ADDRESS}
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
-          service_account_key: ${GCP_CI_SA_KEY}
-          project_id: ${GCP_PROJECT}
+          service_account_key: "${GCP_CI_SA_KEY}"
+          project_id: "${GCP_PROJECT}"
       - name: update endpoints
         run: |-
           gcloud endpoints deploy endpoints/openapi.yaml --project ${GCP_PROJECT}
@@ -46,8 +43,8 @@ jobs:
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
-          service_account_key: ${GCP_CI_SA_KEY}
-          project_id: ${GCP_PROJECT}
+          service_account_key: "${GCP_CI_SA_KEY}"
+          project_id: "${GCP_PROJECT}"
       - name: get latest config id
         id: config-id
         run: |-
