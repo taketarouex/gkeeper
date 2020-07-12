@@ -14,7 +14,7 @@ Refer [github actions](../.github/workflows/endpoints.yml)
 
 - you need to deploy ESP on Cloud run.
   - Refer [Cloud Endpoints for cloud Run](https://cloud.google.com/endpoints/docs/openapi/get-started-cloud-run?hl=ja)
-- Set your endpoints host on Cloud Run to github secrets ENDPOINTS_HOST
+- Set your host of Cloud Run to github secrets ENDPOINTS_HOST
 - Add service management controller to your Run service account.
   - `GCP_SA_EMAIL=[your Run service account] ENDPOINTS_HOST=[endpoints host] make add-service-management-controller`
 - Add service config editor to your CI service account.
