@@ -23,14 +23,6 @@ Add service config editor to your CI service account.
 
 `GCP_SA_EMAIL=[your CI service account] ENDPOINTS_HOST=[endpoints host] make add-config-editor`
 
-### API Gateway
-
-`make gateway-deploy`
-
-### Cloud Endpoints
-
-`make endpoints-deploy`
-
 ### API key
 
 create API key at [GCP credentials](https://console.cloud.google.com/apis/credentials?hl=ja&project=tktkc-243513).
