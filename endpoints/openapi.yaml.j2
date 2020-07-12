@@ -3,13 +3,13 @@ info:
   title: gkeeper endpoint Cloud Endpoints + Cloud Run
   description: gkeeper api
   version: 1.0.0
-host: gkeeper-gateway-wkclup33iq-an.a.run.app
+host: {{ env['ENDPOINTS_HOST'] }}
 schemes:
   - https
 produces:
   - application/json
 x-google-backend:
-  address: 'https://gkeeper-wkclup33iq-an.a.run.app'
+  address: {{ env['BACKEND_ADDRESS'] }}
   protocol: h2
 security:
   - api_key: []

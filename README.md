@@ -22,6 +22,42 @@ you can add items to Keep by your voice.
 If master branch merged, deploy to cloud run.
 [git hub actions](https://github.com/tktkc72/gkeeper/actions?query=workflow%3Adelivery)
 
+you must set below github secrets.
+
+- KEEP_USER
+  - your google user ID
+- KEEP_PASSWORD
+  - your google password
+- GCP_PROJECT
+  - where you deploy
+- GCP_REGION
+  - where you deploy
+- GCP_SA_EMAIL
+  - run gkeeper
+  - need below
+    - roles/servicemanagement.serviceController
+    - roles/run.invoker
+- GCP_CI_SA_KEY
+  - key of service account deploy gkeeper
+  - need below
+    - roles/servicemanagement.configEditor
+    - roles/run.admin
+    - roles/storage.objectAdmin
+- SERVICE_NAME
+  - used to name of gkeeper cloud run
+- GATEWAY_NAME
+  - used to name of ESPv2 Cloud Run
+- ENDPOINTS_HOST
+  - ESPv2 Cloud Run host name
+- BACKEND_ADDRESS
+  - gkeeper Cloud Run URL
+
+## Protect endpoint
+
+You need API Key to use API.
+API Endpoint is protected by ESPv2.
+Refer to [endpoint readme](endpoints/README.md)
+
 ## Test
 
 `make test`
@@ -42,8 +78,9 @@ need to crate a keep list named `test_gkeeper`
 - [x] 複数リストに対応する
 - [x] アクセスポイントを保護する
 - [x] tokenを使用してlogin回数をへらす
-- [ ] endpointsのデプロイ自動化
-  - [ ] endpoint URLをsecret化
+- [x] endpointsのデプロイ自動化
+  - [x] endpoint URLをsecret化
+- [ ] コンテナにバージョンのタグをつける
 - [ ] endpointsのログがないので調査
 - [ ] レスポンスを見直す
   - [ ] login failは500エラーにする
