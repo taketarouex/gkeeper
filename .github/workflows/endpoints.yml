@@ -2,8 +2,6 @@ name: endpoints
 
 on:
   push:
-    branches:
-      - master
     paths:
       - 'endpoints/**'
 
