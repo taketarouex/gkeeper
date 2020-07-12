@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'endpoints/**'
+      - 'endpoints.yml'
 
 env:
   GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
