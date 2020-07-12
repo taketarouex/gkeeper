@@ -1,0 +1,62 @@
+swagger: '2.0'
+info:
+  title: gkeeper endpoint Cloud Endpoints + Cloud Run
+  description: gkeeper api
+  version: 1.0.0
+host: {{ env['ENDPOINTS_HOST'] }}
+schemes:
+  - https
+produces:
+  - application/json
+x-google-backend:
+  address: {{ env['BACKEND_ADDRESS'] }}
+  protocol: h2
+security:
+  - api_key: []
+paths:
+  '/api/list/{list_name}/item':
+    post:
+      summary: add item to list
+      operationId: post-add-item
+      parameters:
+        - name: list_name
+          in: path
+          description: list name which you add item to
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            type: object
+            properties:
+              item:
+                type: string
+          description: item which you add
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            properties: {}
+      description: add item to list
+  /api/health:
+    get:
+      summary: health
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+          examples: {}
+      operationId: get-api-health
+      description: confirm api health
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"
