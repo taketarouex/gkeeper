@@ -46,24 +46,23 @@ jobs:
           service_account_key: ${{ secrets.GCP_CI_SA_KEY }}
           project_id: ${{ secrets.GCP_PROJECT }}
       - name: get latest config id
-        id: config-id
         run: |-
-          echo "::set-output name=config-id::$(gcloud endpoints configs list \
+          echo "::set-env name=CONFIG_ID::$(gcloud endpoints configs list \
             --service=${ENDPOINTS_HOST} \
-            --sort-by="~CONFIG_ID" \
+            --sort-by='~CONFIG_ID' \
             --limit=1 \
             | tail -1 | cut -d' ' -f1)"
       - name: get service.json
         run: |-
           curl --fail -o "service.json" -H "Authorization: Bearer $(gcloud auth print-access-token)" \
-          "https://servicemanagement.googleapis.com/v1/services/${ENDPOINTS_HOST}/configs/${steps.config-id.outputs.config-id}?view=FULL"
+          "https://servicemanagement.googleapis.com/v1/services/${ENDPOINTS_HOST}/configs/${CONFIG_ID}?view=FULL"
       - name: Build a docker image
-        run: |
+        run:
           docker build -t asia.gcr.io/${GCP_PROJECT}/${GATEWAY_NAME}:${GITHUB_SHA::7} -f endpoints/Dockerfile .
       - name: Configure docker to use the gcloud cli
         run: gcloud auth configure-docker --quiet
       - name: Push the docker image
-        run: |
+        run:
           docker push asia.gcr.io/${GCP_PROJECT}/${GATEWAY_NAME}:${GITHUB_SHA::7}
       - name: deploy
         run: |-

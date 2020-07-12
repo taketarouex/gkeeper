@@ -1,6 +1,10 @@
 name: test
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'endpoints/**'
+      - '.github/workflows/endpoints.yml'
 
 env:
   KEEP_USER: ${{ secrets.KEEP_USER }}
@@ -32,7 +36,7 @@ jobs:
         poetry config virtualenvs.create false
         make install
     - name: Test with pytest
-      run: |
+      run:
         make test
 
   e2e-test:

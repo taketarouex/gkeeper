@@ -21,7 +21,7 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v1
       - name: Build a docker image
-        run: |
+        run:
           docker build -t asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7} .
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -32,7 +32,7 @@ jobs:
       - name: Configure docker to use the gcloud cli
         run: gcloud auth configure-docker --quiet
       - name: Push the docker image
-        run: |
+        run:
           docker push asia.gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA::7}
 
   deploy:
