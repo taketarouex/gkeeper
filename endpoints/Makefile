@@ -1,7 +1,7 @@
-.PHONY: add-invoker add-api-key
+.PHONY: add-invoker add-service-management-controller
 
 add-service-management-controller:
-	gcloud endpoints services add-iam-policy-binding $(GATEWAY_RUN_HOST_NAME) \
+	gcloud endpoints services add-iam-policy-binding $(ENDPOINTS_HOST) \
 		--member=serviceAccount:$(GCP_SA_EMAIL) --role=roles/servicemanagement.serviceController
 
 add-invoker:
