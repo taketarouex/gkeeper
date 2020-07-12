@@ -11,7 +11,6 @@ env:
   GCP_REGION: ${{ secrets.GCP_REGION }}
   GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
   GATEWAY_NAME: ${{ secrets.GATEWAY_NAME }}
-  GCP_CI_SA_KEY: ${{ secrets.GCP_CI_SA_KEY }}
   ENDPOINTS_HOST: ${{ secrets.ENDPOINTS_HOST }}
   BACKEND_ADDRESS: ${{ secrets.BACKEND_ADDRESS }}
 
@@ -30,8 +29,8 @@ jobs:
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
-          service_account_key: "${GCP_CI_SA_KEY}"
-          project_id: "${GCP_PROJECT}"
+          service_account_key: ${{ secrets.GCP_CI_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT }}
       - name: update endpoints
         run: |-
           gcloud endpoints deploy endpoints/openapi.yaml --project ${GCP_PROJECT}
@@ -44,8 +43,8 @@ jobs:
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
-          service_account_key: "${GCP_CI_SA_KEY}"
-          project_id: "${GCP_PROJECT}"
+          service_account_key: ${{ secrets.GCP_CI_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT }}
       - name: get latest config id
         id: config-id
         run: |-
