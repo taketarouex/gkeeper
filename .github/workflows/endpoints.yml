@@ -33,7 +33,7 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT }}
       - name: update endpoints
         run: |-
-          gcloud endpoints deploy endpoints/openapi.yaml --project ${GCP_PROJECT}
+          gcloud endpoints services deploy endpoints/openapi.yaml --project ${GCP_PROJECT}
 
   update-gateway:
     runs-on: ubuntu-latest
