@@ -7,8 +7,14 @@ You need api key to access gkeeper endpoint.
 
 ## deploy
 
+Auto deploy when update files in `endpoints` dir.
+Refer [github actions](../.github/workflows/endpoints.yml)
+
+
 First, you need to deploy ESP on Cloud run.
 Refer [Cloud Endpoints for cloud Run](https://cloud.google.com/endpoints/docs/openapi/get-started-cloud-run?hl=ja)
+
+Set your endpoints host on Cloud Run to github secrets ENDPOINTS_HOST
 
 ### API Gateway
 
