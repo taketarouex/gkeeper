@@ -39,7 +39,7 @@ jobs:
 
   update-gateway-cloud-run:
     runs-on: ubuntu-latest
-    needs: update-endpoints
+    needs: update-cloud-endpoints
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v1
