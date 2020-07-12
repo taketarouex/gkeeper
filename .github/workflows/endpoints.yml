@@ -2,6 +2,8 @@ name: endpoints
 
 on:
   push:
+    branches:
+      - master
     paths:
       - 'endpoints/**'
       - '.github/workflows/endpoints.yml'
