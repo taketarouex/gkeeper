@@ -80,8 +80,3 @@ need to crate a keep list named `test_gkeeper`
 - [x] tokenを使用してlogin回数をへらす
 - [x] endpointsのデプロイ自動化
   - [x] endpoint URLをsecret化
-- [ ] コンテナにバージョンのタグをつける
-- [ ] endpointsのログがないので調査
-- [ ] レスポンスを見直す
-  - [ ] login failは500エラーにする
-  - [ ] requestが解釈できない場合は400
